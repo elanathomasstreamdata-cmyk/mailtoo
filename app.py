@@ -389,4 +389,14 @@ if st.session_state["done"]:
         file_path = done_info.get("file")
         if file_path and os.path.exists(file_path):
             st.download_button(
-                "⬇️ Download Updated CSV"
+                "⬇️ Download Updated CSV",
+                data=open(file_path, "rb"),
+                file_name=os.path.basename(file_path),
+                mime="text/csv",
+            )
+
+    if st.button("🔁 New Run / Reset"):
+        if os.path.exists(DONE_FILE):
+            os.remove(DONE_FILE)
+        st.session_state.clear()
+        st.experimental_rerun()
